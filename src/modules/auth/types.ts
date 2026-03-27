@@ -22,3 +22,20 @@ export interface AuthResponse {
   };
   token: string;
 }
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface UserProfile {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: UserRole;
+  status: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}

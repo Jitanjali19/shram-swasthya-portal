@@ -71,4 +71,47 @@ export class AuthService {
       token,
     };
   }
+
+  async me(userId: string) {
+    const user = await authRepo.findUserById(userId);
+    if (!user || user.deletedAt) {
+      throw new AppError('User not found', 404);
+    }
+
+    return {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
+      status: user.status,
+      isActive: user.isActive,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  }
+
+  async logout() {
+    // For stateless JWT, logout is handled client-side via token deletion.
+    return {
+      message: 'Logged out successfully',
+    };
+  }
+
+  async changePassword(userId: string, payload: { currentPassword: string; newPassword: string }) {
+    const user = await authRepo.findUserById(userId);
+    if (!user || user.deletedAt) {
+      throw new AppError('User not found', 404);
+    }
+
+    const isPasswordValid = await bcrypt.compare(payload.currentPassword, user.passwordHash);
+    if (!isPasswordValid) {
+      throw new AppError('Current password is invalid', 400);
+    }
+
+    const hashedNewPassword = await bcrypt.hash(payload.newPassword, 10);
+    await authRepo.updateUser(userId, { passwordHash: hashedNewPassword });
+
+    return { message: 'Password changed successfully' };
+  }
 }

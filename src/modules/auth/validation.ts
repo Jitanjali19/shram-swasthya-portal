@@ -15,9 +15,13 @@ export const registerSchema = z.object({
     email: emailSchema,
     phone: phoneSchema,
     password: passwordSchema,
-    role: z.nativeEnum(UserRole).refine(
-      (role) => [UserRole.VENDOR, UserRole.PATIENT].includes(role as any),
-      { message: 'Role must be VENDOR or PATIENT' }
-    ),
+    role: z.nativeEnum(UserRole),
+  }),
+});
+
+export const changePasswordSchema = z.object({
+  body: z.object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
   }),
 });

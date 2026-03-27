@@ -4,6 +4,7 @@ export enum UserRole {
   VENDOR = 'VENDOR',
   FIELD_STAFF = 'FIELD_STAFF',
   DOCTOR = 'DOCTOR',
+  LABOR = 'LABOR',
   PATIENT = 'PATIENT',
 }
 

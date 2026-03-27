@@ -16,6 +16,7 @@ enum UserRole {
   VENDOR
   FIELD_STAFF
   DOCTOR
+  LABOR
   PATIENT
 }
 

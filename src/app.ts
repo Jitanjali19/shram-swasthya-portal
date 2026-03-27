@@ -2,12 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { errorHandler } from './common/middleware';
+import { errorHandler, notFound } from './common/middleware';
 import authRoutes from './modules/auth/routes';
 import superAdminRoutes from './modules/super-admin/routes';
 import patientRoutes from './modules/patients/routes';
 import eligibilityRoutes from './modules/eligibility/routes';
 import auditLogRoutes from './modules/audit-logs/routes';
+import usersRoutes from './modules/users/routes';
 
 const app = express();
 
@@ -30,7 +31,11 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('API is runninggggg bro');
+});
 app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
 app.use('/api/super-admin', superAdminRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/eligibility', eligibilityRoutes);
@@ -40,6 +45,8 @@ app.use('/api/audit-logs', auditLogRoutes);
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+app.use(notFound);
 
 // Error handling
 app.use(errorHandler);
