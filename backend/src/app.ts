@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('API is runninggggg bro');
+  res.send('API is run ho rhi bro well done');
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
